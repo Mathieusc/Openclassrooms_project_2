@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-
+"""
 links = []
 
 for i in range(51):
@@ -21,7 +21,10 @@ for i in range(51):
 			link = a['href']
 			links.append('http://books.toscrape.com/catalogue/' + link)
 
+# print(len(links)) >>> 1000
+# so we have all the books from the website
 print(links)
+"""
 
 """
 Note to myself:
@@ -30,3 +33,21 @@ module to avoid being blocked while scraping through all the pages from a
 website, or use a proxy...
 It doesn't seem to be an issue with this website tho.
 """
+
+#-----------------------------------------------------------------------------
+# Save all the urls inside a txt file for now.
+# I will create a CSV file later
+
+""" 
+Create the file
+with open('urls.txt', 'w') as file:
+	for link in links:
+		file.write(link + '\n')
+
+Read the file
+with open('urls.txt', 'r') as file:
+	for row in file:
+		print(row)
+"""
+
+url = "http://books.toscrape.com/catalogue/1000-places-to-see-before-you-die_1/index.html"
