@@ -1,36 +1,44 @@
 import requests
 from bs4 import BeautifulSoup
 
-"""
-links = []
+def get_books_urls():
+	""" This function will return a list of all the links of each books
+	from books.toscrape.com"""
 
-for i in range(51):
+	links = []
 
-	url = "http://books.toscrape.com/catalogue/page-" + str(i) + ".html"
-	response = requests.get(url)
+	for i in range(51):
 
-	if response.ok:
-		#print('Page: ' + str(i) + '\n')
-		# precise lxml or 'GuessedAtParserWarning'
-		soup = BeautifulSoup(response.text, 'lxml')
-		articles = soup.findAll('article')
+		url = "http://books.toscrape.com/catalogue/page-" + str(i) + ".html"
+		response = requests.get(url)
 
-		for article in articles:
-			a = article.find('a')
-			# use brackets to select attributs from an href tag (like a list)
-			link = a['href']
-			links.append('http://books.toscrape.com/catalogue/' + link)
+		if response.ok:
+			#print('Page: ' + str(i) + '\n')
+			# precise lxml or 'GuessedAtParserWarning'
+			soup = BeautifulSoup(response.text, 'lxml')
+			articles = soup.findAll('article')
+
+			for article in articles:
+				a = article.find('a')
+				# use brackets to select attributs from an href tag (like a list)
+				link = a['href']
+				links.append('http://books.toscrape.com/catalogue/' + link)
+	return links
+
+def get_books_data():
+
 
 # print(len(links)) >>> 1000
 # so we have all the books from the website
-print(links)
-"""
+books_urls = get_books_urls()
+#print(books_urls)
+
 
 """
 Note to myself:
 It might be useful to add a pause with time.sleep(seconds) with the os
 module to avoid being blocked while scraping through all the pages from a
-website, or use a proxy...
+website, or use a proxy, or with requests.timeout parameter
 It doesn't seem to be an issue with this website tho.
 """
 
@@ -49,5 +57,3 @@ with open('urls.txt', 'r') as file:
 	for row in file:
 		print(row)
 """
-
-url = "http://books.toscrape.com/catalogue/1000-places-to-see-before-you-die_1/index.html"
