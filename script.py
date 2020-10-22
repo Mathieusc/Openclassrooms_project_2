@@ -12,7 +12,7 @@ def get_books_urls():
 		response = requests.get(url)
 
 		if response.ok:
-			# precise lxml or 'GuessedAtParserWarning'
+			# precise lxml to avoid the 'GuessedAtParserWarning' message
 			soup = BeautifulSoup(response.text, 'lxml')
 			articles = soup.findAll('article')
 
