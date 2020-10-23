@@ -43,6 +43,9 @@ if response.ok:
 	book_rating = soup.find('p', {'class': re.compile(r'^star-rating\s[A-Z]')})
 	#print(book_rating)
 
+	book_picture = soup.find('img')
+	print(book_picture)
+
 	http = urllib3.PoolManager()
 	images = soup.findAll('img')
 	for image in images:
