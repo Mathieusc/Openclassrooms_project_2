@@ -5,9 +5,11 @@ from bs4 import BeautifulSoup
 
 with open('urls.txt', 'r') as in_file:
 	with open('books.csv', 'w', encoding='utf-8') as out_file:
+
 		fieldnames = ['product_page_url', 'universal_product_code', 'title',\
 'price_including_tax', 'price_excluding_tax', 'number_available',\
 'product_description', 'category', 'review_rating', 'image_url']
+
 		csv_writer = csv.DictWriter(out_file, fieldnames=fieldnames,\
 		quoting=csv.QUOTE_ALL)
 		csv_writer.writeheader()
@@ -73,16 +75,16 @@ with open('urls.txt', 'r') as in_file:
 					+ book_picture.attrs['src'].replace('../', '')
 
 				rows = [
-		{'product_page_url': url,\
-		'universal_product_code': book_upc.text,\
-		'title': book_title.text,\
-		'price_including_tax': book_price_including_tax.text,\
-		'price_excluding_tax': book_price_excluding_tax.text,\
-		'number_available': book_availability.text.strip(),\
-		'product_description': book_description.text,\
-		'category': book_category.text.strip(),\
-		'review_rating': book_rating_converted,\
-		'image_url': book_picture_url}]
+			{'product_page_url': url,\
+			'universal_product_code': book_upc.text,\
+			'title': book_title.text,\
+			'price_including_tax': book_price_including_tax.text,\
+			'price_excluding_tax': book_price_excluding_tax.text,\
+			'number_available': book_availability.text.strip(),\
+			'product_description': book_description.text,\
+			'category': book_category.text.strip(),\
+			'review_rating': book_rating_converted,\
+			'image_url': book_picture_url}]
 
 				csv_writer.writerows(rows)
 

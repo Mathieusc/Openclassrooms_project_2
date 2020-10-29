@@ -1,4 +1,5 @@
 import requests
+import re
 from bs4 import BeautifulSoup
 
 def get_books_urls():
@@ -7,12 +8,19 @@ def get_books_urls():
 
 	links = []
 	# Looping through the 50 pages of the website
-	for i in range(51):
+	for i in range(2):
+		"""
+		pages_number = soup.find('li', {'class': 'current'}).text.strip()\
+		.replace('Page 1 of ', '')
+		pages_number = int(pages_number)
+		print(pages_number)"""
+			
 		url = "http://books.toscrape.com/catalogue/page-" + str(i) + ".html"
 		response = requests.get(url)
 
 		if response.ok:
 			# precise lxml to avoid the 'GuessedAtParserWarning' message
+
 			soup = BeautifulSoup(response.text, 'lxml')
 			articles = soup.findAll('article')
 
@@ -21,6 +29,7 @@ def get_books_urls():
 				# use brackets to select attributs from an href tag
 				link = a['href']
 				links.append('http://books.toscrape.com/catalogue/' + link)
+
 	return links
 
 def get_books_data():
