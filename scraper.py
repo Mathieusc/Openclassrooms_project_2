@@ -5,48 +5,43 @@
 import requests
 import re
 import csv
-import time
 from bs4 import BeautifulSoup
-from extract_data import *
+from scraper_functions import (
+	get_number_of_pages, 
+	get_books_urls,
+	get_books_data,
+	write_books_for_category_to_csv)
 
+
+def get_books_for_category(category_url):
+	# for books in category_url:
+	book_list = []
+	for book in get_book(category_url):
+		book_list.append(book)
+	print(book_list)
+
+	# Récupérer les données de tous les livres sur toutes les pages de la catégorie
+
+	pass
 
 def main():
-	"""Run the whole program."""
-	books_categories_name = get_books_categories_name()
-	print(books_categories_name)
-	print(len(books_categories_name))
-	print(type(books_categories_name))
-	print('\n')
-	books_categories_url = get_books_categories_urls()
-	print(books_categories_url)
-	print(len(books_categories_url))
-	print('\n')
+	# Using only one category for now as a test, the program needs to loop
+	# through all of them in the end.
+	add_a_comment = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
+	# 1 - getting all the pages from one category if they exists.
+	nb_of_pages = get_number_of_pages(add_a_comment)
+	print("Pages urls:\n", nb_of_pages, "\n")
 
-	books_categories_list = get_books_names_urls(books_categories_name, 
-									  books_categories_url)
-	# print(books_categories_list[0][0], 
-	#       books_categories_list[1][0])
-	      							   # [0] gives the categories names
-									   # [1] gives the categories urls
-									   # [0][0] = Academic
-									   # [1][0] = Academic url
+	# 2 - getting all the urls from all the books from all the pages of one
+	# category.
+	books_urls = get_books_urls(nb_of_pages)
+	print("Books urls:\n", [books_urls], "\n")
 
-	# ------------------------------------------------------------------------
-	# Main loop of the main program
-	# ------------------------------------------------------------------------
-	# Find the number of pages
-	number_of_pages = get_number_of_pages(books_categories_url)
-	# for x in number_of_pages:
-	# 	print(x)
-	pages_index = get_pages_index(books_categories_url)
-	# for ze in pages_index:
-	# 	print(ze)
-	# Create a list of books for each categories
-	books_list = create_book_list(books_categories_name)
-	print(books_list)
-	# Loop for each pages
-	all_pages = get_all_pages_from_categories(number_of_pages)
-	for m in all_pages:
-		print(m)
+	books_data = get_books_data(books_urls)
+	print("Books data:\n", [book for book in books_data])
+
+	# Write all the data inside a csv file.
+	#book_csv = write_books_for_category_to_csv("add_a_comment", books_data)
+
 if __name__ == '__main__':
 	main()
