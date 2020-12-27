@@ -98,8 +98,6 @@ def get_books_data(books_urls):
 				"review_rating": None,\
 				"image_url": None}
 
-
-
 	for books in books_urls:
 		books.strip()
 		book_data['product_page_url'] = books
@@ -161,7 +159,8 @@ def get_books_data(books_urls):
 
 
 def write_books_for_category_to_csv(category_name, book_list):
-	# Ecriture des livres dans un CSV:
+	"""Write all the data from the books into a csv file."""
+	
 	csv_colums = ["product_page_url",
 				"universal_product_code",
 				"title",

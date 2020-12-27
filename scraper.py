@@ -27,7 +27,8 @@ def get_books_for_category(category_url):
 def main():
 	# Using only one category for now as a test, the program needs to loop
 	# through all of them in the end.
-	add_a_comment = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
+	add_a_comment = 
+	"https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
 	# 1 - getting all the pages from one category if they exists.
 	nb_of_pages = get_number_of_pages(add_a_comment)
 	print("Pages urls:\n", nb_of_pages, "\n")
