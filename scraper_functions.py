@@ -1,28 +1,28 @@
 import requests
 import re
 import csv
-import time
+import os
 from bs4 import BeautifulSoup
 
-def get_category_index_url(urls="https://books.toscrape.com/index.html"):
-    """ This function will return a list containing all the urls of each
-    book's categories from every pages of books.toscrape.com"""
+def create_book_dict_categories_urls():
+    """This function will return a dictionary with each books categories 
+    associated with their urls."""
 
-    response = requests.get(urls)
+    books_dict = {}
+    url = "http://books.toscrape.com/index.html"
+    response = requests.get(url, timeout=5)
     response.encoding = 'UTF-8'
-    books_genres = []
 
     if response.status_code == 200:
-        # precise lxml to avoid the 'GuessedAtParserWarning' message
         soup = BeautifulSoup(response.text, 'lxml')
-        category = soup.find('ul', {'class': 'nav nav-list'}).findAll('a')
-        for hrefs in category:
-            books_genres.append('https://books.toscrape.com/'
-            + hrefs.attrs['href'])      
-        books_genres.pop(0)
-        books_genres.sort()
+        categories = soup.find('ul', {'class': 'nav nav-list'}).findAll('a')
+        for names in categories:
+            category_name = names.text.strip()
+            if category_name != "Books":
+                books_dict[category_name] = 'https://books.toscrape.com/' \
+                                            + names.attrs['href']
 
-        return books_genres
+        return books_dict
 
 def get_number_of_pages(category_index_url):
     """This function will return a list of all the pages urls from the
@@ -61,6 +61,9 @@ def get_number_of_pages(category_index_url):
                 new_url = category_index_url.replace('index.html',
                  'page-' +str(counter) + '.html')
                 category_urls.append(new_url)
+        else:
+            category_urls.append(category_index_url)
+
     return category_urls
 
 def get_books_urls(category_urls):
@@ -155,9 +158,9 @@ def get_books_data(books_urls):
 
         yield book_data
 
-
 def write_books_for_category_to_csv(category_name, book_list):
-    """Write all the data from the books into a csv file."""
+    """Create a directory for each categories and write all the data
+    from the books into a csv file into this directory."""
     
     csv_colums = ["product_page_url",
                 "universal_product_code",
@@ -169,10 +172,59 @@ def write_books_for_category_to_csv(category_name, book_list):
                 "category",
                 "review_rating",
                 "image_url"]
-
-    with open(f"{category_name}.csv", "w", encoding='UTF-8') as inputfile:
+    # Create variables for directories, create the directory from the
+    # book's category and the directory for the images.
+    path = category_name
+    img_path = "images"
+    books_path = "books_categories"
+    if not os.path.isdir(books_path):
+        os.mkdir(books_path)
+    try:
+        os.makedirs(os.path.join(books_path, category_name, img_path))
+    except FileExistsError as F:
+        print(F)
+    # Create the csv into the directory from the book's category.
+    with open(books_path + '/' + path + '/' + f"{category_name}.csv", 
+             "w", encoding='UTF-8') as inputfile:
         writer = csv.DictWriter(inputfile, fieldnames=csv_colums,
-        quoting=csv.QUOTE_ALL, delimiter=',' )
+                                quoting=csv.QUOTE_ALL, delimiter=',' )
         writer.writeheader()
-        for row in csv_colums:
-            writer.writerows(book_list)
+        writer.writerows(book_list)
+
+def download_book_image(category_name, book_list):
+    """Download every images from the category parameter and the list of 
+    images inside its directory as '.jpg'."""
+
+    x = 0; y = 0
+    img_path = "images"
+    books_path = "books_categories"
+    for books in book_list:
+        file_name = book_list[x]["title"].replace(":", "-").replace(
+            '"', "-").replace("/", "-").replace("'", "-").replace(
+            "*", "-").replace("?", "-")
+        book_picture = book_list[y]["image_url"]
+        print(file_name + ":\n", book_picture)
+        response = requests.get(book_picture, stream=True)
+        if response.status_code == 200:
+            with open(books_path + '/' + category_name + '/' 
+                     + img_path + '/' + file_name + ".jpg", "wb") as file:
+                for chunk in response:
+                    file.write(chunk)
+                x += 1 ; y += 1
+
+#-----------------------------------------------------------
+# Trying to use ThreadPoolExecutor below but cannot make it work for now.
+# def multi_download_book_image(book_list):
+#     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
+#         future_to_url = {executor.submit(faster_download_book_image, book_list) for image_url in book_list}
+
+#         for future in concurrent.futures.as_completed(future_to_url):
+#             try:
+#                 url = future_to_url(future)
+#             except Exception as e:
+#                 pass
+#             try:
+#                 data = future.result()
+#             except Exception as exc:
+#                 print(exc)
+#---------------------------------------------------------------------
