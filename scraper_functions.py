@@ -28,32 +28,32 @@ def get_number_of_pages(category_index_url):
     """This function will return a list of all the pages urls from the
     category."""
 
-    #=for lines in category_index_url:
     response = requests.get(category_index_url, timeout=2)
     response.encoding = 'UTF-8'
 
     category_book_list = []
     category_urls = []
-    book_data = {"product_page_url": None,\
-                "universal_product_code": None,\
-                "title": None,\
-                "price_including_tax": None,\
-                "price_excluding_tax": None,\
-                "number_available": None,\
-                "product_description": None,\
-                "category": None,\
-                "review_rating": None,\
+    book_data = {"product_page_url": None,
+                "universal_product_code": None,
+                "title": None,
+                "price_including_tax": None,
+                "price_excluding_tax": None,
+                "number_available": None,
+                "product_description": None,
+                "category": None,
+                "review_rating": None,
                 "image_url": None}
     # Get all the pages from the category
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, 'lxml')
         category_name = soup.find('li', {'class': 'active'})
-        category_book_list.append(category_name.text.replace(' ', '_').lower())
+        category_book_list.append(
+        category_name.text.replace(' ', '_').lower())
         pages_number = soup.find('li', {'class': 'current'})
 
         if pages_number:
-            number_of_page = str(pages_number.text.strip().replace('Page 1 of ', '')), 
-            category_index_url
+            number_of_page = str(pages_number.text.strip().replace(
+                            'Page 1 of ', '')), category_index_url
             category_urls.append(category_index_url)
             counter = 1
             while counter < int(number_of_page[0]):
@@ -88,15 +88,15 @@ def get_books_data(books_urls):
     # This function will get every data from the books urls."""
 
     for books in books_urls:
-        book_data = {"product_page_url": None,\
-            "universal_product_code": None,\
-            "title": None,\
-            "price_including_tax": None,\
-            "price_excluding_tax": None,\
-            "number_available": None,\
-            "product_description": None,\
-            "category": None,\
-            "review_rating": None,\
+        book_data = {"product_page_url": None,
+            "universal_product_code": None,
+            "title": None,
+            "price_including_tax": None,
+            "price_excluding_tax": None,
+            "number_available": None,
+            "product_description": None,
+            "category": None,
+            "review_rating": None,
             "image_url": None}
         books.strip()
         book_data['product_page_url'] = books
@@ -153,8 +153,6 @@ def get_books_data(books_urls):
         book_data['image_url'] = 'http://books.toscrape.com/' \
             + book_picture.attrs['src'].replace('../', '')
 
-        # for keys in book_data:
-        #     yield book_data.get(keys)
         yield book_data
 
 
