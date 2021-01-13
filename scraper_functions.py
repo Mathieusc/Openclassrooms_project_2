@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 
 def create_book_dict_categories_urls():
-    """This function will return a dictionary with each books categories
+    """This function will return a dictionary with all books categories
     associated with their urls."""
 
     books_dict = {}
@@ -36,7 +36,7 @@ def get_number_of_pages(category_index_url):
 
     category_book_list = []
     category_urls = []
-    # Get all the pages from the category
+    # Getting all the pages from the category
     if response.status_code == 200:
         soup = BeautifulSoup(response.text, "lxml")
         category_name = soup.find("li", {"class": "active"})
@@ -87,7 +87,7 @@ def get_books_urls(category_urls):
 
 
 def get_books_data(books_urls):
-    # This function will get every data from the books urls."""
+    # This function will gather all the data from the books urls."""
 
     for books in books_urls:
         book_data = {
@@ -166,7 +166,7 @@ def get_books_data(books_urls):
 
 
 def write_books_for_category_to_csv(category_name, book_list):
-    """Create a directory for each categories and write all the data
+    """Create a directory for all categories and write all the data
     from the books into a csv file into this directory."""
 
     csv_colums = [
@@ -214,11 +214,11 @@ def write_books_for_category_to_csv(category_name, book_list):
 
 
 def download_book_image(category_name, book_list):
-    """Download every images from the category parameter and the list of
+    """Download all images from the category parameter and the list of
     images inside its directory as '.jpg'."""
 
     # Using x and y to loop through the list of dictionary.
-    # x and y correspond to the first category from all categories. (50 total)
+    # x and y correspond to the first category from all categories. (50 totals)
     x = 0
     y = 0
     img_path = "images"
