@@ -2,4 +2,4 @@ env/
 .idea/
 .~lock.books.csv#
 __pycache__
-*.csv*
+books_categories/

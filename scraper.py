@@ -1,50 +1,49 @@
 """
-    Documentation du module
+    This program will download all books from books.toscrape.com and will
+    create a .csv file for all categories. These last will be sorted into
+    their corresponding directories and every book's pictures will be
+    downloaded into an image directory aswell!
 """
 
-import requests
-import re
-import csv
-from bs4 import BeautifulSoup
 from scraper_functions import (
-    get_category_index_url,
-    get_number_of_pages, 
+    create_book_dict_categories_urls,
+    get_number_of_pages,
     get_books_urls,
     get_books_data,
-    write_books_for_category_to_csv)
-
-
-def get_books_for_category(category_url):
-    # for books in category_url:
-    book_list = []
-    for book in get_book(category_url):
-        book_list.append(book)
-    print(book_list)
-
-    # Récupérer les données de tous les livres sur toutes les pages de la catégorie
-
-    pass
+    write_books_for_category_to_csv,
+    download_book_image,)
 
 def main():
-    # Using only one category for now as a test, the program needs to loop
-    # through all of them in the end.
-    add_a_comment = "https://books.toscrape.com/catalogue/category/books/add-a-comment_18/index.html"
-    all_categories = get_category_index_url()
-    print("All categories: \n", all_categories)
-    # 1 - getting all the pages from one category if they exists.
-    nb_of_pages = get_number_of_pages(all_categories[6])
-    print("Pages urls:\n", nb_of_pages, "\n")
-
-    # 2 - getting all the urls from all the books from all the pages of one
-    # category.
-    books_urls = get_books_urls(nb_of_pages)
-    print("Books urls:\n", [books_urls], "\n")
-
-    books_data = [book for book in get_books_data(books_urls)]
-    print("Books data:\n", [book for book in books_data])
-
-    # Write all the data inside a csv file.
-    book_csv = write_books_for_category_to_csv("add_a_comment", books_data)
+    category_counter = 49
+    books_counter = 1000
+    all_categories = create_book_dict_categories_urls()
+    # Creating a dictionary with all categories associated with their urls.
+    print(f"Scrapping all the books from books.toscrape.com\n\
+    Total Categories: {len(all_categories)}\n\
+    Total Books: {books_counter}")
+    # Looping through all categories, 6 steps total:
+    for category_name, index_url in all_categories.items():
+        # 1 - Getting all the pages from one category if they exist.
+        nb_of_pages = get_number_of_pages(index_url)
+        # 2 - Getting all the urls from all the books from all the pages of
+        # one category.
+        books_urls = get_books_urls(nb_of_pages)
+        # 4 - Getting all the books data.
+        books_data = [book for book in get_books_data(books_urls)]
+        print(f"Gathering books from the category: {category_name}\n\
+    Total books to scrape: {len(books_urls)}")
+        # 5 - Writing all the data inside a .csv file.
+        write_books_for_category_to_csv(category_name, books_data)
+        print("Writing data into a csv file...")
+        # 6 - Downloading the images of all books from the category.
+        print("Downloading pictures...")
+        download_book_image(category_name, books_data)
+        print("Download complete !")
+        books_counter -= len(books_urls)
+        print(f"{category_name} category done, {category_counter} categories \
+and {books_counter} books remaining !")
+        print("-------------------------------------------------------------")
+        category_counter -= 1
 
 if __name__ == '__main__':
     main()
