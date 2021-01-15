@@ -45,6 +45,5 @@ and {books_counter} books remaining !")
         print("-------------------------------------------------------------")
         category_counter -= 1
 
-
 if __name__ == '__main__':
     main()
