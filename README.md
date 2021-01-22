@@ -32,9 +32,10 @@ git clone https://github.com/Mathieusc/Project_2
 cd path\of\project\folder
 ```
 
-Activate the virtual environment:
+Create and activate the virtual environment:
 
 ```
+python -m venv env
 source env/bin/activate
 ```
 
