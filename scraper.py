@@ -28,10 +28,10 @@ def main():
         # 2 - Getting all the urls from all the books from all the pages of
         # one category.
         books_urls = get_books_urls(nb_of_pages)
-        # 4 - Getting all the books data.
-        books_data = [book for book in get_books_data(books_urls)]
         print(f"Gathering books from the category: {category_name}\n\
     Total books to scrape: {len(books_urls)}")
+        # 4 - Getting all the books data.
+        books_data = [book for book in get_books_data(books_urls)]
         # 5 - Writing all the data inside a .csv file.
         write_books_for_category_to_csv(category_name, books_data)
         print("Writing data into a csv file...")
