@@ -159,7 +159,7 @@ def get_books_data(books_urls):
             book_data["review_rating"] = book_rating_converted
 
         book_picture = soup.find("img")
-        book_data["image_url"] = "http://books.toscrape.com/"
+        book_data["image_url"] = "http://books.toscrape.com/"\
         + book_picture.attrs["src"].replace("../", "")
 
         yield book_data
