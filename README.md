@@ -62,7 +62,7 @@ all the images of all the books into their respective directories!
 * [Python](https://www.python.org/) - Programming language
 * [Sublim Text](https://www.sublimetext.com/) - Text editor
 
-## Authors
+## Author
 
 * **Mathieu Schweitzer** - *alias* - [Mathieusc](https://github.com/Mathieusc)
 
