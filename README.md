@@ -29,7 +29,7 @@ Go to the directory of the project from a terminal.
 
 ```
 git clone https://github.com/Mathieusc/Project_2
-cd path\of\project\folder
+cd path_of_folder\Project_2
 ```
 
 Create and activate the virtual environment:
