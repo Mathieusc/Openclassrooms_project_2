@@ -40,7 +40,7 @@ source env/bin/activate
 On Windows:
 ```
 python -m venv env
-source env/Scripts/Activate.ps1
+.\env/Scripts\Activate.ps1
 ```
 
 Install the modules used for the project:
