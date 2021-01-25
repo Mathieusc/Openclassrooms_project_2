@@ -57,6 +57,13 @@ The program will scrape through each category from the website,
 download the data of all the books into a .csv file and download
 all the images of all the books into their respective directories!
 
+## Known issue
+
+On Windows, one picture cannot be downloaded, the following error raises:
+FileNotFoundError on [this book](https://books.toscrape.com/catalogue/at-the-existentialist-cafe-freedom-being-and-apricot-cocktails-with-jean-paul-sartre-simone-de-beauvoir-albert-camus-martin-heidegger-edmund-husserl-karl-jaspers-maurice-merleau-ponty-and-others_459/index.html)
+Used a try except for this picture for now to keep the program running.
+
+
 ## Built With
 
 * [Python](https://www.python.org/) - Programming language
