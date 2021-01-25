@@ -223,31 +223,36 @@ def download_book_image(category_name, book_list):
     y = 0
     img_path = "images"
     books_path = "books_categories"
-    for books in book_list:
-        file_name = (
-            book_list[x]["title"]
-            .replace(":", "-")
-            .replace('"', "-")
-            .replace("/", "-")
-            .replace("'", "-")
-            .replace("*", "-")
-            .replace("?", "-")
-        )
-        book_picture = book_list[y]["image_url"]
-        response = requests.get(book_picture, stream=True)
-        if response.status_code == 200:
-            with open(
-                books_path
-                + "/"
-                + category_name
-                + "/"
-                + img_path
-                + "/"
-                + file_name
-                + ".jpg",
-                "wb",
-            ) as file:
-                for chunk in response:
-                    file.write(chunk)
-                x += 1
-                y += 1
+    try:
+        for books in book_list:
+            file_name = (
+                book_list[x]["title"]
+                .replace(":", "-")
+                .replace('"', "-")
+                .replace("/", "-")
+                .replace("'", "-")
+                .replace("*", "-")
+                .replace("?", "-")
+            )
+            book_picture = book_list[y]["image_url"]
+            response = requests.get(book_picture, stream=True)
+            if response.status_code == 200:
+                with open(
+                    books_path
+                    + "/"
+                    + category_name
+                    + "/"
+                    + img_path
+                    + "/"
+                    + file_name
+                    + ".jpg",
+                    "wb",
+                ) as file:
+                    for chunk in response:
+                        file.write(chunk)
+                    x += 1
+                    y += 1
+    except FileNotFoundError as f:
+        print(f)
+        print("Could no gather all the images from the category.")
+        pass
