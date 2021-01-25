@@ -32,11 +32,15 @@ git clone https://github.com/Mathieusc/Project_2
 cd path_of_folder\Project_2
 ```
 
-Create and activate the virtual environment:
-
+Create and activate the virtual environment on Linux:
 ```
 python -m venv env
 source env/bin/activate
+```
+On Windows:
+```
+python -m venv env
+source env/Scripts/Activate.ps1
 ```
 
 Install the modules used for the project:
