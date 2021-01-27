@@ -42,6 +42,10 @@ On Windows:
 python -m venv env
 .\env\Scripts\Activate.ps1
 ```
+If Activate.ps1 does not work and you have an error (PSSecurityException + FullyQualifiedErrorId : UnauthorizedAccess), open Windows Powershell as admin and run this:
+```
+set-executionpolicy unrestricted
+```
 
 Install the modules used for the project:
 
